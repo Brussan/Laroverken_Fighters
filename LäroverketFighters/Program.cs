@@ -9,11 +9,11 @@ namespace LäroverketFighters
     class Program
     {
         //Skapar ett objekt från Enemy byggritningen (klass)
-        static Enemy enemy = new Enemy();
+        static Boss enemy = new Boss();
         
 
         static Random randomness = new Random();
-        static int playerHP = randomness.Next(10, 20);
+        public static int playerHP = randomness.Next(10, 20);
 
         static int playerDmg = randomness.Next(2, 6);
 
@@ -21,8 +21,6 @@ namespace LäroverketFighters
 
         static void Main(string[] args)
         {
-            enemy.Setup();
-
             Console.Title = "Läroverket Fighters";
             Console.SetWindowSize(35, 10);
 
@@ -45,7 +43,7 @@ namespace LäroverketFighters
                 if (userInput == "1") //Player attack
                 {
                     playerDmg = randomness.Next(2, 6);
-                    enemy.TakeDamage(playerDmg);
+                   enemy.TakeDamage(playerDmg);
 
                     Console.WriteLine("Player attacked for " + playerDmg);
                 }
@@ -66,7 +64,7 @@ namespace LäroverketFighters
                     continue;
                 }
 
-                EnemyTurn();
+                enemy.DecideAction();
 
                 Console.ReadKey(); //pause until user presses key
             } //end of while loop
@@ -86,30 +84,14 @@ namespace LäroverketFighters
             Console.Read();
         }
 
-        static void EnemyTurn()
-        {
-            if(randomness.Next(0, 10) >= 7) //Enemy heals if number is greater than X
-            {
-                int healAmount = randomness.Next(2, 6);
-                enemy.Heal(healAmount);
-                Console.WriteLine(enemy.name + " healed for " + healAmount);
-            }
-            else
-            {
-                //Enemy attacks
-                enemy.dmg = randomness.Next(2, 4);
-                playerHP -= enemy.dmg;
-
-                Console.WriteLine(enemy.name + " attacked for " + enemy.dmg);
-            }
-        }
+    
 
         static void DisplayStats()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Player HP:" + playerHP);
 
-            enemy.DisplayInfo();
+           enemy.DisplayInfo();
         }
     }
 }
